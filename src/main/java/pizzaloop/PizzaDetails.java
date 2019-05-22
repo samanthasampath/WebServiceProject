@@ -13,6 +13,7 @@ public class PizzaDetails {
     private String name;
     private String description;
     private Double price;
+    private String imageUrl;
 
     public Integer getPizzaId() {
         return pizzaId;
@@ -45,4 +46,13 @@ public class PizzaDetails {
     public void setPrice(Double price) {
         this.price = price;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 }
