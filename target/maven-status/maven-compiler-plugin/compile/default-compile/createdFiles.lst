@@ -1,6 +1,8 @@
+pizzaloop\CartRepository.class
 pizzaloop\MainController.class
 pizzaloop\Login.class
 pizzaloop\Application.class
 pizzaloop\PizzaDetails.class
+pizzaloop\Cart.class
 pizzaloop\PizzaRepository.class
 pizzaloop\LoginRepository.class

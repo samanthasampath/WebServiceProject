@@ -20,6 +20,8 @@ public class MainController {
     private PizzaRepository pizzaRepository;
     @Autowired
     private LoginRepository loginRepository;
+    @Autowired
+    private CartRepository cartRepository;
     private static final String SUCCESS= "Saved";
     /*
       READ Operation: http://localhost:8080/demo/all
@@ -30,8 +32,15 @@ public class MainController {
         return pizzaRepository.findAll();
     }
     /*
+      READ Operation: http://localhost:8080/demo/allCart
+     */
+    @GetMapping(path="/allCart")
+    public @ResponseBody Iterable<Cart> getCart() {
+        return cartRepository.findAll();
+    }
+
+    /*
       READ Operation: http://localhost:8080/demo/allLog
-      For read user details
      */
     @GetMapping(path="/allLog")
     public @ResponseBody Iterable<Login> getLogin() {
@@ -45,6 +54,15 @@ public class MainController {
     @GetMapping(path="/findByPizzaId")
     public @ResponseBody List<PizzaDetails> getPizzaById(@RequestParam Integer id) {
         return pizzaRepository.findByPizzaId(id);
+    }
+
+    /*
+     * READ byID: http://localhost:8080/demo/findByPname?pname=Pizza
+     * For read pizza details
+     */
+    @GetMapping(path="/findByPname")
+    public @ResponseBody List<Cart> getPizzaByName(@RequestParam String pname) {
+        return cartRepository.findByPname(pname);
     }
     /*
      * READ byID: http://localhost:8080/demo/findByUsername?username=admin
@@ -83,11 +101,33 @@ public class MainController {
     }
 
     /*
+     * CREATE Operation: http://localhost:8080/demo/addCart?pname=Pizza 0&quantity=1&fprice=250.50
+     * add cart details
+     */
+    @GetMapping(path="/addCart")
+    public @ResponseBody String addNewCartItem(@RequestParam String pname, @RequestParam int quantity,@RequestParam double fprice) {
+        Cart cart = new Cart();
+        cart.setPname(pname);
+        cart.setQuantity(quantity);
+        cart.setFprice(fprice);
+        cartRepository.save(cart);
+        return SUCCESS;
+    }
+
+    /*
      * DELETE Operation: http://localhost:8080/demo/deleteByPizzaId?id=2
      */
     @GetMapping(path="/deleteByPizzaId")
     public @ResponseBody List<PizzaDetails> deletePizzaById(@RequestParam Integer id) {
         return pizzaRepository.deleteByPizzaId(id);
+    }
+
+    /*
+     * DELETE Operation: http://localhost:8080/demo/deleteByPname?pname=Pizza
+     */
+    @GetMapping(path="/deleteByPname")
+    public @ResponseBody List<Cart> deleteByPname(@RequestParam String pname) {
+        return cartRepository.deleteByPname(pname);
     }
 
     /*
@@ -106,5 +146,23 @@ public class MainController {
             }
         }
         return pizzaRepository.findByPizzaId(id);
+    }
+
+    /*
+     * UPDATE Operation: http://localhost:8080/demo/updateCart?pname=Pizza&quantity=5&fprice=1234.56
+     */
+    @GetMapping(path="/updateCart")
+    public @ResponseBody List<Cart> updateCartDetails(@RequestParam String pname, @RequestParam int quantity,@RequestParam double fprice) {
+
+        List<Cart> cartDetailsList = cartRepository.findByPname(pname);
+        if(!cartDetailsList.isEmpty()) {
+            for(Cart cartDetails: cartDetailsList) {
+                cartDetails.setPname(pname);
+                cartDetails.setQuantity(quantity);
+                cartDetails.setFprice(fprice);
+                cartRepository.save(cartDetails);
+            }
+        }
+        return cartRepository.findByPname(pname);
     }
 }
