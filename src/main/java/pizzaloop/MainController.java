@@ -101,15 +101,15 @@ public class MainController {
     }
 
     /*
-     * CREATE Operation: http://localhost:8080/demo/addCart?pname=Pizza 0&quantity=1&fprice=250.50
+     * CREATE Operation: http://localhost:8080/demo/addCart?pname=Pizza 0&quantity=1&nprice=250.50
      * add cart details
      */
     @GetMapping(path="/addCart")
-    public @ResponseBody String addNewCartItem(@RequestParam String pname, @RequestParam int quantity,@RequestParam double fprice) {
+    public @ResponseBody String addNewCartItem(@RequestParam String pname, @RequestParam int quantity,@RequestParam double nprice) {
         Cart cart = new Cart();
         cart.setPname(pname);
         cart.setQuantity(quantity);
-        cart.setFprice(fprice);
+        cart.setNprice(nprice);
         cartRepository.save(cart);
         return SUCCESS;
     }
@@ -149,17 +149,17 @@ public class MainController {
     }
 
     /*
-     * UPDATE Operation: http://localhost:8080/demo/updateCart?pname=Pizza&quantity=5&fprice=1234.56
+     * UPDATE Operation: http://localhost:8080/demo/updateCart?pname=Pizza&quantity=5&nprice=1234.56
      */
     @GetMapping(path="/updateCart")
-    public @ResponseBody List<Cart> updateCartDetails(@RequestParam String pname, @RequestParam int quantity,@RequestParam double fprice) {
+    public @ResponseBody List<Cart> updateCartDetails(@RequestParam String pname, @RequestParam int quantity,@RequestParam double nprice) {
 
         List<Cart> cartDetailsList = cartRepository.findByPname(pname);
         if(!cartDetailsList.isEmpty()) {
             for(Cart cartDetails: cartDetailsList) {
                 cartDetails.setPname(pname);
                 cartDetails.setQuantity(quantity);
-                cartDetails.setFprice(fprice);
+                cartDetails.setNprice(nprice);
                 cartRepository.save(cartDetails);
             }
         }
